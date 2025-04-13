@@ -1,12 +1,62 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import React, { useEffect, useState } from 'react';
+import IntroScene from '../components/IntroScene';
+import CheetahTransition from '../components/CheetahTransition';
+import EventsSection from '../components/sections/EventsSection';
+import TechSection from '../components/sections/TechSection';
+import CraftsSection from '../components/sections/CraftsSection';
+import DanceSection from '../components/sections/DanceSection';
+import ClassGallery from '../components/ClassGallery';
+import SoundToggle from '../components/SoundToggle';
+import { useSound } from '../hooks/useSound';
+import ParticleBackground from '../components/ParticleBackground';
 
 const Index = () => {
+  const [introComplete, setIntroComplete] = useState(false);
+  const [currentSection, setCurrentSection] = useState(-1);
+  const { toggleMute, isMuted } = useSound();
+
+  // Sections in order of appearance
+  const sections = [
+    <EventsSection key="events" />,
+    <TechSection key="tech" />,
+    <CraftsSection key="crafts" />,
+    <DanceSection key="dance" />,
+    <ClassGallery key="gallery" />
+  ];
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
-      </div>
+    <div className="relative min-h-screen bg-black overflow-hidden">
+      {/* Sound toggle button */}
+      <SoundToggle isMuted={isMuted} toggleMute={toggleMute} />
+
+      {/* Intro scene */}
+      {!introComplete && (
+        <IntroScene onComplete={() => setIntroComplete(true)} />
+      )}
+
+      {/* Main content after intro */}
+      {introComplete && (
+        <>
+          {/* Background Particles */}
+          <div className="fixed inset-0 z-0">
+            <ParticleBackground count={70} speed={0.5} />
+          </div>
+          
+          {/* Cheetah transition */}
+          <CheetahTransition 
+            currentSection={currentSection} 
+            onSectionChange={setCurrentSection} 
+          />
+          
+          {/* Current section content */}
+          <div className="relative z-10">
+            {currentSection >= 0 && currentSection < sections.length && (
+              sections[currentSection]
+            )}
+          </div>
+        </>
+      )}
     </div>
   );
 };

@@ -96,15 +96,16 @@ const TechSection: React.FC = () => {
 
   const title = "TECH";
 
-  // Glitch effect for cards on hover
+  // Fixed glitch effect variants for cards
   const glitchVariants = {
+    initial: { x: 0, y: 0 },
     hover: {
       x: [0, -2, 2, -2, 0],
       y: [0, 1, -1, 1, 0],
       transition: { 
         duration: 0.3,
         repeat: Infinity,
-        repeatType: "mirror"
+        repeatType: "mirror" as const
       }
     }
   };
@@ -148,6 +149,7 @@ const TechSection: React.FC = () => {
               key={event.id}
               variants={itemVariants}
               whileHover="hover"
+              initial="initial"
               className="relative bg-gradient-to-br from-gray-900 to-gray-800 rounded-lg overflow-hidden"
             >
               {/* Border glow effect */}

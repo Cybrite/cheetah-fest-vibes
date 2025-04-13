@@ -8,6 +8,7 @@ import CraftsSection from '../components/sections/CraftsSection';
 import DanceSection from '../components/sections/DanceSection';
 import ClassGallery from '../components/ClassGallery';
 import SoundToggle from '../components/SoundToggle';
+import FestNavigation from '../components/FestNavigation';
 import { useSound } from '../hooks/useSound';
 import ParticleBackground from '../components/ParticleBackground';
 
@@ -25,10 +26,23 @@ const Index = () => {
     <ClassGallery key="gallery" />
   ];
 
+  // Function to handle direct section navigation
+  const handleSectionChange = (sectionIndex: number) => {
+    setCurrentSection(sectionIndex);
+  };
+
   return (
     <div className="relative min-h-screen bg-black overflow-hidden">
       {/* Sound toggle button */}
       <SoundToggle isMuted={isMuted} toggleMute={toggleMute} />
+      
+      {/* Navigation menu - only show after intro */}
+      {introComplete && currentSection >= 0 && (
+        <FestNavigation 
+          currentSection={currentSection} 
+          onSectionChange={handleSectionChange} 
+        />
+      )}
 
       {/* Intro scene */}
       {!introComplete && (
@@ -46,7 +60,7 @@ const Index = () => {
           {/* Cheetah transition */}
           <CheetahTransition 
             currentSection={currentSection} 
-            onSectionChange={setCurrentSection} 
+            onSectionChange={handleSectionChange} 
           />
           
           {/* Current section content */}

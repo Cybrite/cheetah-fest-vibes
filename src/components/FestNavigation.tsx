@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Home } from 'lucide-react';
 import { useSound } from '../hooks/useSound';
 
 interface FestNavigationProps {
@@ -112,10 +112,12 @@ const FestNavigation: React.FC<FestNavigationProps> = ({
             </motion.li>
             <motion.li variants={itemVariants} className="pt-2 border-t border-gray-700">
               <Link 
-                to="/"
-                className="block w-full text-left p-2 rounded-md transition-colors hover:bg-gray-800 text-gray-200"
+                to="/home"
+                className="flex items-center gap-2 w-full text-left p-2 rounded-md transition-colors hover:bg-gray-800 text-gray-200"
+                onClick={() => play('click')}
               >
-                Home
+                <Home size={18} />
+                Home Page
               </Link>
             </motion.li>
           </ul>

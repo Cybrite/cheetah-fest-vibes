@@ -1,5 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import IntroScene from '../components/IntroScene';
 import CheetahTransition from '../components/CheetahTransition';
 import EventsSection from '../components/sections/EventsSection';
@@ -13,6 +14,8 @@ import { useSound } from '../hooks/useSound';
 import ParticleBackground from '../components/ParticleBackground';
 
 const Index = () => {
+  const location = useLocation();
+  const { state } = location;
   const [introComplete, setIntroComplete] = useState(false);
   const [currentSection, setCurrentSection] = useState(-1);
   const { toggleMute, isMuted } = useSound();
@@ -25,6 +28,17 @@ const Index = () => {
     <DanceSection key="dance" />,
     <ClassGallery key="gallery" />
   ];
+
+  // Check if we should skip the intro based on the location state
+  useEffect(() => {
+    if (state?.skipIntro === true) {
+      setIntroComplete(true);
+    }
+
+    if (state?.targetSection !== undefined && state.targetSection >= 0) {
+      setCurrentSection(state.targetSection);
+    }
+  }, [state]);
 
   // Function to handle direct section navigation
   const handleSectionChange = (sectionIndex: number) => {

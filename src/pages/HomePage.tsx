@@ -33,10 +33,7 @@ const HomePage = () => {
       transition: { 
         duration: 0.4,
       }
-    }
-  };
-
-  const hoverVariants = {
+    },
     hover: { 
       scale: 1.05, 
       boxShadow: "0 10px 20px rgba(139, 92, 246, 0.3)",
@@ -59,7 +56,7 @@ const HomePage = () => {
       description: 'Discover the exciting events planned throughout the festival.',
       icon: <Calendar className="w-8 h-8 text-purple-400" />,
       color: 'from-purple-900/80 to-purple-700/60',
-      link: '/'
+      link: '/experience'
     },
     {
       id: 'tech',
@@ -67,7 +64,7 @@ const HomePage = () => {
       description: 'Explore cutting-edge technology showcases and competitions.',
       icon: <Cpu className="w-8 h-8 text-blue-400" />,
       color: 'from-blue-900/80 to-blue-700/60',
-      link: '/'
+      link: '/experience'
     },
     {
       id: 'crafts',
@@ -75,7 +72,7 @@ const HomePage = () => {
       description: 'Experience traditional and modern craft exhibitions and workshops.',
       icon: <Brush className="w-8 h-8 text-pink-400" />,
       color: 'from-pink-900/80 to-pink-700/60',
-      link: '/'
+      link: '/experience'
     },
     {
       id: 'dance',
@@ -83,7 +80,7 @@ const HomePage = () => {
       description: 'Witness breathtaking dance performances from various cultures.',
       icon: <Music className="w-8 h-8 text-yellow-400" />,
       color: 'from-yellow-900/80 to-yellow-700/60',
-      link: '/'
+      link: '/experience'
     },
     {
       id: 'classes',
@@ -91,7 +88,7 @@ const HomePage = () => {
       description: 'Browse through our student gallery organized by class.',
       icon: <Users className="w-8 h-8 text-green-400" />,
       color: 'from-green-900/80 to-green-700/60',
-      link: '/'
+      link: '/experience'
     }
   ];
 
@@ -176,7 +173,6 @@ const HomePage = () => {
               key={section.id}
               variants={itemVariants}
               whileHover="hover"
-              variants={hoverVariants}
               onMouseEnter={handleSectionHover}
               onClick={handleSectionClick}
               className="relative overflow-hidden rounded-xl bg-gradient-to-br border border-white/10 backdrop-blur-sm"
@@ -185,7 +181,7 @@ const HomePage = () => {
               <Link 
                 to={section.link} 
                 className="block p-6 relative z-10 h-full"
-                state={{ targetSection: index }}
+                state={{ skipIntro: true, targetSection: index }}
               >
                 <div className="flex justify-between items-start">
                   <div className="bg-black/30 p-3 rounded-lg backdrop-blur-sm mb-4">
@@ -212,7 +208,7 @@ const HomePage = () => {
           transition={{ delay: 1 }}
         >
           <Link 
-            to="/" 
+            to="/experience" 
             state={{ skipIntro: false }}
             className="inline-block px-8 py-4 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold text-lg hover:from-purple-700 hover:to-pink-700 transition-all duration-300 shadow-lg shadow-purple-500/30 hover:shadow-xl hover:shadow-purple-500/40"
             onClick={() => play('click')}

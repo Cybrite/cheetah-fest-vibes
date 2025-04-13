@@ -29,7 +29,7 @@ const ClassPage = () => {
           transition={{ duration: 0.3 }}
         >
           <Link 
-            to="/"
+            to="/experience"
             className="flex items-center gap-2 p-2 rounded-full bg-fest-black/80 text-white hover:bg-fest-purple/80 transition-colors neon-box"
             onClick={() => play('click')}
             aria-label="Back to experience"

@@ -45,6 +45,13 @@ const Index = () => {
     setCurrentSection(sectionIndex);
   };
 
+  // Set initial section if none is selected after intro
+  useEffect(() => {
+    if (introComplete && currentSection === -1) {
+      setCurrentSection(0); // Show first section after intro completes
+    }
+  }, [introComplete, currentSection]);
+
   return (
     <div className="relative min-h-screen bg-black overflow-hidden">
       {/* Sound toggle button */}
@@ -90,3 +97,4 @@ const Index = () => {
 };
 
 export default Index;
+

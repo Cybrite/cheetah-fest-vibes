@@ -13,7 +13,7 @@ const CheetahTransition: React.FC<CheetahTransitionProps> = ({
   onSectionChange 
 }) => {
   const [position, setPosition] = useState(0);
-  const [isRunning, setIsRunning] = useState(true);
+  const [isRunning, setIsRunning] = useState(false); // Start stopped instead of running
   const [showDust, setShowDust] = useState(false);
   const { play, stop } = useSound();
   const animationRef = useRef<number | null>(null);
@@ -22,7 +22,11 @@ const CheetahTransition: React.FC<CheetahTransitionProps> = ({
 
   // Run animation with requestAnimationFrame for smooth movement
   useEffect(() => {
-    play('cheetah');
+    if (isRunning) {
+      play('cheetah');
+    } else {
+      stop('cheetah');
+    }
 
     const animate = (timestamp: number) => {
       if (!lastTimestampRef.current) {
@@ -48,18 +52,12 @@ const CheetahTransition: React.FC<CheetahTransitionProps> = ({
             // Determine which section we've reached (0-based index in stopPositions array)
             const sectionIndex = stopPositions.indexOf(nextStop);
             
-            // If not the last stop, schedule the next run
-            if (sectionIndex < stopPositions.length - 1) {
-              setTimeout(() => {
-                onSectionChange(sectionIndex);
-                setShowDust(false);
-                setIsRunning(true);
-              }, 2000);
-            } else {
-              // If it's the last stop, trigger the final section
+            // Update the current section, but don't auto-continue running
+            setTimeout(() => {
               onSectionChange(sectionIndex);
-              stop('cheetah');
-            }
+              setShowDust(false);
+              // Don't auto-start running again
+            }, 2000);
             
             return nextStop;
           }
@@ -81,6 +79,13 @@ const CheetahTransition: React.FC<CheetahTransitionProps> = ({
       stop('cheetah');
     };
   }, [isRunning, onSectionChange, play, stop]);
+
+  // Add a function to manually control the cheetah
+  const startRunning = () => {
+    if (!isRunning) {
+      setIsRunning(true);
+    }
+  };
 
   // Calculate sprite frame based on running state
   const spriteFrame = isRunning ? 
@@ -156,8 +161,20 @@ const CheetahTransition: React.FC<CheetahTransitionProps> = ({
           )}
         </AnimatePresence>
       </div>
+
+      {/* Add a Run button to let the user control the cheetah */}
+      <div className="absolute bottom-4 right-4 pointer-events-auto">
+        <button
+          onClick={startRunning}
+          className={`px-4 py-2 rounded-full bg-fest-purple/80 text-white hover:bg-fest-purple transition-colors neon-box ${isRunning ? 'opacity-50 cursor-not-allowed' : 'opacity-100'}`}
+          disabled={isRunning}
+        >
+          Run Cheetah
+        </button>
+      </div>
     </div>
   );
 };
 
 export default CheetahTransition;
+
